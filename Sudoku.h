@@ -130,7 +130,7 @@ for (i=0; i<9; i++){
 	}
 }
 
-int sippai[9][9]={0}, w=0;
+int sippai[9][9]={0}, w=0, wr1=0, wr2=0;
 while (seikai<2){
 	head1:
 	for (i=0; i<9; i++){
@@ -159,8 +159,30 @@ while (seikai<2){
 				}
 				if (kanouSuuUse==0){
 					sippai[i][j]++;
-					if (sippai[i][j]==kanouSuu[i][j]){
-						sippai[i-1][j]++;
+					for (t=0; t<9; t++){
+						for (u=0; u<9; u++){
+							if (kanouSuu[t][u]==sippai[t][u] && kanouSuu[t][u]!=0){
+								wr1++;
+							}
+							if (kanouSuu[t][u]!=0){
+								wr2++;
+							}
+						}
+					}
+					if (wr1==wr2){
+						cout << "0\n";
+						return;
+					}
+					if (sippai[i][j]==kanouSuu[i][j] && kanouSuu[i][j]!=0){
+						for (t=i; t>=0; t--){
+							for (u=8; u>=0; u--){
+								if (t<=i && u<j){
+									if(kanouSuu[t][u]!=0){
+										sippai[t][u]++; 
+									}
+								}
+							}
+						}
 						for (t=i; t<9; t++){
 							for (u=j; u<9; u++){
 								sippai[t][u] = 0;
@@ -299,7 +321,8 @@ if (seikai==1){
 			changeCol(rand()%3, rand()%3);
 			changeRow(rand()%3, rand()%3);
 			rotate(rand()%30);
-			flip(rand()%2);
+			flip(0);
+			flip(1);
 		}
 		void print(){
 			int i, j;
